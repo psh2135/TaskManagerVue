@@ -1,13 +1,11 @@
 <template>
   <v-container>
-    <v-card class="task-filters">Task Filters Component</v-card>
+    <v-card class="task-filters">Task Filters {{name}}</v-card>
   </v-container>
 </template>
 
-<script>
-export default {
-  name: "TaskFilters",
-};
+<script setup>
+  const name = 'pnini'
 </script>
 
 <style scoped></style>
