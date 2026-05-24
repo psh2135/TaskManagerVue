@@ -27,7 +27,7 @@
           variant="text"
           size="small"
           :color="task.status === 'Completed' ? 'success' : 'grey'"
-          @click="emitComplete"
+          @click="toggleStatus"
         ></v-btn>
 
         <v-btn
@@ -35,6 +35,7 @@
           variant="text"
           size="small"
           color="error"
+          @click="tasksStore.deleteTask(task.id)"
         ></v-btn>
       </v-col>
     </v-row>
@@ -42,29 +43,32 @@
 </template>
 
 <script setup>
+import { useTasksStore } from '@/stores/tasks' 
+
+const tasksStore = useTasksStore()
+
 const props = defineProps({
   task: {
     type: Object,
     required: true
   }
-});
+})
 
-const emit = defineEmits(['complete-task']);
-
-const emitComplete = () => {
-  emit('complete-task', props.task.id);
-};
+const toggleStatus = () => {
+  const nextStatus = props.task.status === 'Completed' ? 'To Do' : 'Completed'
+  tasksStore.updateTaskStatus(props.task.id, nextStatus) 
+}
 
 const getStatusColor = (status) => {
   switch (status) {
     case 'To Do':
-      return 'blue-darken-1';
+      return 'blue-darken-1'
     case 'In Progress':
-      return 'orange-darken-1';
+      return 'orange-darken-1'
     case 'Completed':
-      return 'success';
+      return 'success'
     default:
-      return 'grey';
+      return 'grey'
   }
-};
+}
 </script>
