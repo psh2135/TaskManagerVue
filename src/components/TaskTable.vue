@@ -47,21 +47,18 @@ const tasksStore = useTasksStore();
 </script>
 
 <style scoped>
-/* אנימציה חלקה להוספה ומחיקה של משימות */
 .task-list-enter-active,
 .task-list-leave-active,
 .task-list-move {
   transition: all 0.4s ease;
 }
 
-/* המשימה נכנסת/יוצאת עם דעיכה ותזוזה קלה ימינה */
 .task-list-enter-from,
 .task-list-leave-to {
   opacity: 0;
   transform: translateX(20px);
 }
 
-/* מונע קפיצות בזמן המחיקה ומאפשר לשורות שמתחת לעלות בצורה חלקה */
 .task-list-leave-active {
   position: absolute;
   width: 100%;
