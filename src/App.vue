@@ -22,5 +22,5 @@
 
 <script setup>
 import TaskManager from "./components/TaskManager.vue";
-import UserButton from "./components/auth/UserButton.vue";
+import UserButton from "./components/auth/userButton.vue";
 </script>
