@@ -2,41 +2,24 @@
   <v-container fluid class="pa-4">
     <v-form ref="taskForm" @submit.prevent="submitTask">
       <v-card class="pa-4 rounded-lg" elevation="1">
+        <v-card-title class="text-h6 font-weight-bold pa-4">
+          Add Task
+        </v-card-title>
         <v-row align="start" no-gutters class="ga-3">
-          
+
           <v-col cols="12" sm="4">
-            <v-text-field
-              v-model="taskName"
-              label="Task Name"
-              variant="outlined"
-              density="compact"
-              prepend-inner-icon="mdi-playlist-plus"
-              color="primary"
-              :rules="nameRules"
-            ></v-text-field>
+            <v-text-field v-model="taskName" label="Task Name" variant="outlined" density="compact"
+              prepend-inner-icon="mdi-playlist-plus" color="primary" :rules="nameRules"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="4">
-            <v-select
-              v-model="selectedCategory"
-              label="Category"
-              :items="tasksStore.categories"
-              variant="outlined"
-              density="compact"
-              prepend-inner-icon="mdi-format-list-bulleted"
-              color="primary"
-              :rules="categoryRules"
-            ></v-select>
+            <v-select v-model="selectedCategory" label="Category" :items="tasksStore.categories" variant="outlined"
+              density="compact" prepend-inner-icon="mdi-format-list-bulleted" color="primary"
+              :rules="categoryRules"></v-select>
           </v-col>
 
           <v-col cols="12" sm="auto" class="pt-1">
-            <v-btn
-              type="submit"
-              variant="flat"
-              color="primary"
-              height="40"
-              class="font-weight-bold px-6"
-            >
+            <v-btn type="submit" variant="flat" color="primary" height="40" class="font-weight-bold px-6">
               Add
             </v-btn>
           </v-col>
@@ -49,7 +32,7 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useTasksStore } from '@/stores/tasks' 
+import { useTasksStore } from '@/stores/tasks'
 
 const tasksStore = useTasksStore()
 
@@ -59,9 +42,9 @@ const selectedCategory = ref(null)
 
 const isDuplicateTask = (name) => {
   if (!selectedCategory.value || !name) return false
-  
-  return tasksStore.tasks.some(task => 
-    task.category === selectedCategory.value && 
+
+  return tasksStore.tasks.some(task =>
+    task.category === selectedCategory.value &&
     task.title.trim().toLowerCase() === name.trim().toLowerCase()
   )
 }
@@ -84,7 +67,7 @@ watch(selectedCategory, () => {
 
 const submitTask = async () => {
   const { valid } = await taskForm.value.validate()
-  
+
   if (valid) {
     tasksStore.addTask(taskName.value.trim(), selectedCategory.value)
     taskForm.value.reset()
@@ -92,5 +75,4 @@ const submitTask = async () => {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

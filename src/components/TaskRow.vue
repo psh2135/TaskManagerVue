@@ -1,27 +1,25 @@
 <template>
-  <v-card
-    :class="[
-      'mb-3 pa-3 rounded-lg border-s-xl elevation-1',
-      task.status === 'Completed' ? 'border-success' : 'border-primary',
-    ]"
-  >
-    <v-row align="center" no-gutters>
-      <v-col>
-        <div class="text-subtitle-1 font-weight-bold">
-          {{ task.title }}
-        </div>
+  <tr :class="{ 'bg-green-lighten-5': task.status === 'Completed' }">
+    
+    <td class="py-3">
+      <div 
+        class="text-subtitle-1 font-weight-bold"
+      >
+        {{ task.title }}
+      </div>
 
-        <v-chip
-          size="x-small"
-          :color="getStatusColor(task.status)"
-          variant="flat"
-          class="mt-1 font-weight-bold text-uppercase"
-        >
-          {{ task.status }}
-        </v-chip>
-      </v-col>
+      <v-chip
+        size="x-small"
+        :color="getStatusColor(task.status)"
+        variant="flat"
+        class="mt-1 font-weight-bold text-uppercase"
+      >
+        {{ task.status }}
+      </v-chip>
+    </td>
 
-      <v-col cols="auto" class="d-flex align-center ga-2">
+    <td class="text-end" style="width: 120px;">
+      <div class="d-flex justify-end align-center ga-2">
         <v-btn
           :icon="task.status === 'Completed' ? 'mdi-check-circle' : 'mdi-circle-outline'"
           variant="text"
@@ -37,9 +35,9 @@
           color="error"
           @click="tasksStore.deleteTask(task.id)"
         ></v-btn>
-      </v-col>
-    </v-row>
-  </v-card>
+      </div>
+    </td>
+  </tr>
 </template>
 
 <script setup>
