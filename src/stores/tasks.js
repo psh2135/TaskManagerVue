@@ -5,38 +5,38 @@ export const useTasksStore = defineStore('tasks', () => {
 
   const categories = ref(["Work", "Personal", "Other"])
   const statuses = ref(["To Do", "In Progress", "Completed"])
-  
+
   const tasks = ref([
     { id: 1, title: "Task 1", category: "Work", status: "To Do" },
     { id: 2, title: "Task 2", category: "Personal", status: "In Progress" },
     { id: 3, title: "Task 3", category: "Other", status: "Completed" },
   ])
 
-  const currentFilter = ref("All")                    
-  const searchQuery = ref("")                        
-  const selectedCategoryFilter = ref("All categories") 
+  const currentFilter = ref("All")
+  const searchQuery = ref("")
+  const selectedCategoryFilter = ref("All categories")
 
   const filteredTasks = computed(() => {
     return tasks.value.filter(task => {
-      const matchesStatus = currentFilter.value === "All" || 
-                            task.status === currentFilter.value
-      
-      const matchesCategory = selectedCategoryFilter.value === "All categories" || 
-                              task.category === selectedCategoryFilter.value
-      
+      const matchesStatus = currentFilter.value === "All" ||
+        task.status === currentFilter.value
+
+      const matchesCategory = selectedCategoryFilter.value === "All categories" ||
+        task.category === selectedCategoryFilter.value
+
       const matchesSearch = task.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-      
+
       return matchesStatus && matchesCategory && matchesSearch
     })
   })
 
   const tasksByCategory = computed(() => {
     const grouped = {}
-    
+
     categories.value.forEach(category => {
       grouped[category] = []
     })
-    
+
     filteredTasks.value.forEach(task => {
       if (grouped[task.category]) {
         grouped[task.category].push(task)
@@ -44,7 +44,7 @@ export const useTasksStore = defineStore('tasks', () => {
         grouped[task.category] = [task]
       }
     })
-    
+
     return grouped
   })
 
@@ -54,7 +54,7 @@ export const useTasksStore = defineStore('tasks', () => {
       id: newId,
       title: title,
       category: category || categories.value[0],
-      status: "To Do" 
+      status: "To Do"
     })
   }
 
@@ -70,22 +70,24 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   }
 
-  return { 
+  return {
     // State
-    categories, 
-    statuses, 
-    tasks, 
+    categories,
+    statuses,
+    tasks,
     currentFilter,
     searchQuery,
     selectedCategoryFilter,
-    
+
     // Getters
     filteredTasks,
     tasksByCategory,
-    
+
     // Actions
-    addTask, 
-    deleteTask, 
-    updateTaskStatus 
+    addTask,
+    deleteTask,
+    updateTaskStatus
   }
+}, {
+  persist: true
 })
