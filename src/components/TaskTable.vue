@@ -6,14 +6,10 @@
       </v-card-title>
 
       <v-table>
-        <TransitionGroup 
-          v-for="(tasksInCat, categoryName) in tasksByCategory" 
-          :key="categoryName"
-          name="task-list" 
-          tag="tbody"
-        >
+        <TransitionGroup v-for="(tasksInCat, categoryName) in tasksByCategory" :key="categoryName" name="task-list"
+          tag="tbody">
           <template v-if="selectedCategoryFilter === 'All categories' || selectedCategoryFilter === categoryName">
-            
+
             <tr :key="`cat-${categoryName}`" class="bg-purple-lighten-5 font-weight-bold">
               <td colspan="4" class="text-subtitle-2 text-deep-purple-darken-2">
                 <v-icon icon="mdi-folder-outline" class="me-2" size="small"></v-icon>
@@ -23,14 +19,8 @@
             </tr>
 
             <template v-if="tasksInCat.length > 0">
-              <TaskRow 
-                v-for="task in tasksInCat" 
-                :key="task.id" 
-                :task="task"
-                :statuses="statuses"
-                @completeTask="(id) => emit('completeTask', id)"
-                @deleteTask="(id) => emit('deleteTask', id)"
-              />
+              <TaskRow v-for="task in tasksInCat" :key="task.id" :task="task" :statuses="statuses"
+                @completeTask="(id) => emit('completeTask', id)" @deleteTask="(id) => emit('deleteTask', id)" />
             </template>
 
             <tr :key="`empty-${categoryName}`" v-else>
@@ -47,6 +37,7 @@
 </template>
 
 <script setup>
+import { ca } from "vuetify/locale";
 import TaskRow from "./TaskRow.vue";
 
 defineProps({
@@ -58,7 +49,11 @@ defineProps({
     type: String,
     required: true
   },
-    statuses:{
+  statuses: {
+    type: Array,
+    required: true
+  },
+  categories: {
     type: Array,
     required: true
   }

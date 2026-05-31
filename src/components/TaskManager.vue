@@ -16,6 +16,7 @@
       :tasks-by-category="tasksStore.tasksByCategory"
       :selected-category-filter="tasksStore.selectedCategoryFilter || 'All categories'"
       :statuses="statuses"
+      :categories="tasksStore.categories"
       @complete-task="handleCompleteTask"
       @delete-task="handleDeleteTask"
     />

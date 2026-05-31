@@ -66,7 +66,11 @@ export const useTasksStore = defineStore('tasks', () => {
   function completeTask(id) {
     const task = tasks.value.find(task => task.id === id)
     if (task) {
-      task.status = statuses.value[2]
+      if (task.status === statuses.value[0]) {
+        task.status = statuses.value[1]
+      } else if (task.status === statuses.value[1]) {
+        task.status = statuses.value[2]
+      }
     }
   }
 
