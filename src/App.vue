@@ -5,9 +5,7 @@
       <v-app-bar-title class="font-weight-bold px-4">
         Task Manager
       </v-app-bar-title>
-
-      <v-spacer></v-spacer>
-
+      <v-spacer/>
       <div class="px-4">
         <UserButton />
       </div>

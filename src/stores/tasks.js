@@ -7,9 +7,9 @@ export const useTasksStore = defineStore('tasks', () => {
   const statuses = ref(["To Do", "In Progress", "Completed"])
 
   const tasks = ref([
-    { id: 1, title: "Task 1", category: "Work", status: "To Do" },
-    { id: 2, title: "Task 2", category: "Personal", status: "In Progress" },
-    { id: 3, title: "Task 3", category: "Other", status: "Completed" },
+    { id: 1, title: "Task 1", category: categories.value[0], status: statuses.value[0] },
+    { id: 2, title: "Task 2", category: categories.value[1], status: statuses.value[1] },
+    { id: 3, title: "Task 3", category: categories.value[2], status: statuses.value[2] },
   ])
 
   const currentFilter = ref("All")
@@ -54,7 +54,7 @@ export const useTasksStore = defineStore('tasks', () => {
       id: newId,
       title: title,
       category: category || categories.value[0],
-      status: "To Do"
+      status: statuses.value[0]
     })
   }
 
@@ -63,10 +63,10 @@ export const useTasksStore = defineStore('tasks', () => {
   }
 
 
-  function updateTaskStatus(id, newStatus) {
+  function completeTask(id) {
     const task = tasks.value.find(task => task.id === id)
     if (task) {
-      task.status = newStatus
+      task.status = statuses.value[2]
     }
   }
 
@@ -86,7 +86,7 @@ export const useTasksStore = defineStore('tasks', () => {
     // Actions
     addTask,
     deleteTask,
-    updateTaskStatus
+    completeTask
   }
 }, {
   persist: true

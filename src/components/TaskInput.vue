@@ -13,7 +13,7 @@
           </v-col>
 
           <v-col cols="12" sm="4">
-            <v-select v-model="selectedCategory" label="Category" :items="tasksStore.categories" variant="outlined"
+            <v-select v-model="selectedCategory" label="Category" :items="categories" variant="outlined"
               density="compact" prepend-inner-icon="mdi-format-list-bulleted" color="primary"
               :rules="categoryRules"></v-select>
           </v-col>
@@ -32,9 +32,19 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useTasksStore } from '@/stores/tasks'
 
-const tasksStore = useTasksStore()
+const props = defineProps({
+  categories: {
+    type: Array,
+    required: true
+  },
+  checkDuplicate: {
+    type: Function,
+    required: true
+  }
+})
+
+const emit = defineEmits(['addTask'])
 
 const taskForm = ref(null)
 const taskName = ref('')
@@ -42,11 +52,7 @@ const selectedCategory = ref(null)
 
 const isDuplicateTask = (name) => {
   if (!selectedCategory.value || !name) return false
-
-  return tasksStore.tasks.some(task =>
-    task.category === selectedCategory.value &&
-    task.title.trim().toLowerCase() === name.trim().toLowerCase()
-  )
+  return props.checkDuplicate(name, selectedCategory.value)
 }
 
 const nameRules = [
@@ -69,10 +75,11 @@ const submitTask = async () => {
   const { valid } = await taskForm.value.validate()
 
   if (valid) {
-    tasksStore.addTask(taskName.value.trim(), selectedCategory.value)
+    emit('addTask', {
+      title: taskName.value.trim(),
+      category: selectedCategory.value
+    })
     taskForm.value.reset()
   }
 }
 </script>
-
-<style scoped></style>

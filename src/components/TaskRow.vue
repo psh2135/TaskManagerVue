@@ -2,9 +2,7 @@
   <tr :class="{ 'bg-green-lighten-5': task.status === 'Completed' }">
     
     <td class="py-3">
-      <div 
-        class="text-subtitle-1 font-weight-bold"
-      >
+      <div class="text-subtitle-1 font-weight-bold">
         {{ task.title }}
       </div>
 
@@ -25,7 +23,7 @@
           variant="text"
           size="small"
           :color="task.status === 'Completed' ? 'success' : 'grey'"
-          @click="toggleStatus"
+          @click="emit('completeTask', task.id)"
         ></v-btn>
 
         <v-btn
@@ -33,7 +31,7 @@
           variant="text"
           size="small"
           color="error"
-          @click="tasksStore.deleteTask(task.id)"
+          @click="emit('deleteTask', task.id)"
         ></v-btn>
       </div>
     </td>
@@ -41,29 +39,26 @@
 </template>
 
 <script setup>
-import { useTasksStore } from '@/stores/tasks' 
-
-const tasksStore = useTasksStore()
-
 const props = defineProps({
   task: {
     type: Object,
     required: true
+  },
+  statuses:{
+    type: Array,
+    required: true
   }
 })
 
-const toggleStatus = () => {
-  const nextStatus = props.task.status === 'Completed' ? 'To Do' : 'Completed'
-  tasksStore.updateTaskStatus(props.task.id, nextStatus) 
-}
+const emit = defineEmits(['completeTask', 'deleteTask'])
 
 const getStatusColor = (status) => {
   switch (status) {
-    case 'To Do':
+    case props.statuses[0]:
       return 'blue-darken-1'
-    case 'In Progress':
+    case props.statuses[1]:
       return 'orange-darken-1'
-    case 'Completed':
+    case props.statuses[2]:
       return 'success'
     default:
       return 'grey'
